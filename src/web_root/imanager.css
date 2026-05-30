@@ -1,0 +1,116 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: #fff; height: 100vh; display: flex; flex-direction: column; }
+
+.header {
+  background: #1e1e2e;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.content { flex: 1; overflow: hidden; position: relative; }
+.page {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #fff;
+  display: none;
+  overflow-y: auto;
+}
+.page.active { display: block; }
+
+#filePage { background: #1e1e2e; padding: 10px; }
+#fileList {
+  background: #28293d; padding: 8px; border-radius: 6px;
+  color: white; font-size: 14px;
+}
+.file-item { padding: 10px; cursor: pointer; border-radius: 4px; margin-bottom: 4px; }
+.file-item:hover { background: #393a52; }
+.file-item.active { background: #0077ff; }
+
+.refresh-btn {
+  margin-top: 10px; padding: 10px; background: #007bff;
+  color: white; border: none; border-radius: 6px; width: 100%;
+}
+
+#editPage { padding: 10px; background: #f7f9fc; }
+.preview-toggle-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.toggle-btn {
+  padding: 6px 12px; background: #007bff; color: white;
+  border: none; border-radius: 6px; font-size: 14px; cursor: pointer;
+}
+.edit-area, .preview-area { display: none; }
+.edit-area.active, .preview-area.active { display: block; }
+
+#editPage input {
+  width: 100%; padding: 10px; margin-bottom: 8px;
+  border: 1px solid #ddd; border-radius: 6px; font-size: 14px;
+}
+#editor {
+  width: 100%; min-height: 220px; padding: 10px;
+  border: 1px solid #ddd; border-radius: 6px;
+  resize: none; font-family: monospace; line-height: 1.6; font-size: 14px;
+}
+
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: 6px; padding: 8px;
+  background: #fff; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 8px;
+}
+.toolbar button {
+  padding: 6px 8px; border: 1px solid #ddd; background: #fff;
+  border-radius: 4px; font-size: 12px; cursor: pointer;
+}
+.toolbar button:hover { background: #0077ff; color: #fff; border-color: #0077ff; }
+
+.btn-group { display: flex; gap: 8px; margin-top: 8px; }
+.btn { flex: 1; padding: 10px; border: none; border-radius: 6px; color: white; font-size: 14px; cursor: pointer; }
+.btn-green { background: #28a745; }
+.btn-blue { background: #007bff; }
+.btn-red { background: #dc3545; }
+
+.preview-area { padding: 10px; background: #fff; border-radius: 6px; min-height: 300px; }
+.markdown-body { padding: 10px; font-size: 15px; }
+.markdown-body img, .markdown-body video { max-width: 100%; border-radius: 8px; }
+.markdown-body audio { width: 100%; }
+
+.bottom-nav { display: flex; background: #fff; border-top: 1px solid #eee; }
+.bottom-nav button { flex: 1; padding: 12px 8px; border: none; background: none; font-size: 13px; color: #666; }
+.bottom-nav button.active { color: #007bff; font-weight: bold; }
+
+.toast {
+  position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+  background: #28a745; color: white; padding: 10px 20px;
+  border-radius: 6px; z-index: 9999; font-size: 14px;
+}
+
+.upload-progress { height: 4px; width: 100%; background: #eee; border-radius: 2px; overflow: hidden; display: none; margin-top: 6px; }
+.progress-bar { height: 100%; width: 0%; background: #0077ff; transition: width 0.2s; }
+
+.cover-row { display: flex; gap: 8px; align-items: center; }
+#fetchCoverBtn {
+  padding: 10px 12px; background: #17a2b8; color: #fff;
+  border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 14px;
+}
+
+.color-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+#colorBtn { display: inline-flex; align-items: center; gap: 6px; }
+input[type="color"] { width: 40px; height: 30px; border: none; padding: 0; cursor: pointer; }
+
+.graph-modal {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 94vw; height: 80vh; max-width: 700px;
+  background: #111827; z-index: 99999; display: none;
+  border-radius: 12px; box-shadow: 0 0 25px rgba(0,0,0,0.5); overflow: hidden;
+}
+.graph-canvas { width: 100%; height: 100%; }
+.graph-close {
+  position: absolute; top: 12px; right: 12px;
+  background: #ef4444; color: white; border: none;
+  padding: 6px 10px; border-radius: 6px; cursor: pointer; z-index: 100; font-size: 12px;
+}
+.graph-label {
+  position: absolute; color: #fff; font-size: 12px;
+  white-space: nowrap; pointer-events: none; transform: translate(-50%,0);
+  text-shadow: 0 0 3px #000; padding: 2px 5px; border-radius: 3px; background: rgba(0,0,0,0.3);
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>交易觉知 - 文档管理器</title>
+<link rel="stylesheet" href="libs/github-markdown-light.css">
+<link rel="stylesheet" href="manager.css">
+</head>
+<body>
+
+<div class="left">
+  <h3><i class="fa fa-file-text-o"></i> MD 文件列表</h3>
+  <div id="fileList"></div>
+  <button class="btn btn-blue" onclick="loadFileList(true)">刷新</button>
+  <button class="btn btn-purple" onclick="newTradeLog()"><i class="fa fa-calendar-check-o"></i> 新建交易日志</button>
+  <button class="btn btn-purple" onclick="openGraph()"><i class="fa fa-project-diagram"></i> 关系图谱</button>
+</div>
+
+<div class="middle" id="editPanel">
+  <input id="filename" placeholder="文件名（例如：strategy.md）">
+  <input id="title" placeholder="文章标题">
+
+  <input id="categoryInput" placeholder="输入或选择分类" list="categoryList" style="width:100%;">
+  <datalist id="categoryList"></datalist>
+
+  <input id="date" placeholder="日期 2026-03-19">
+  <input id="desc" placeholder="简短描述">
+  
+  <div class="cover-row">
+    <input id="cover" placeholder="封面URL（可选）">
+    <button id="fetchCoverBtn" onclick="fetchCoverImage()">获取封面</button>
+  </div>
+
+  <div class="toolbar">
+    <button onclick="insert('# ')"><i class="fa fa-header"></i> H1</button>
+    <button onclick="insert('## ')"><i class="fa fa-header"></i> H2</button>
+    <button onclick="insert('\n')"><i class="fa fa-paragraph"></i> 段落</button>
+    <button onclick="insert('- ')"><i class="fa fa-list-ul"></i> 列表</button>
+    <button onclick="insert('1. ')"><i class="fa fa-list-ol"></i> 序号</button>
+    <button onclick="wrapSelection('**', '**')"><i class="fa fa-bold"></i> 粗体</button>
+    <button onclick="wrapSelection('*', '*')"><i class="fa fa-italic"></i> 斜体</button>
+    <button onclick="insert('> ')"><i class="fa fa-quote-right"></i> 引用</button>
+    <button onclick="insert('\n---\n')"><i class="fa fa-minus"></i> 横线</button>
+    <button onclick="insertTable()"><i class="fa fa-table"></i> 表格</button>
+    <button onclick="insertImg()"><i class="fa fa-picture-o"></i> 图片</button>
+    <button onclick="insertLink()"><i class="fa fa-link"></i> 链接</button>
+    <button onclick="pasteUploadImage()"><i class="fa fa-clipboard"></i> 粘贴上传</button>
+    <button onclick="insertVideo()"><i class="fa fa-video-camera"></i> 视频</button>
+    <button onclick="insertAudio()"><i class="fa fa-music"></i> 音频</button>
+    <button onclick="insertCode()"><i class="fa fa-code"></i> 代码</button>
+    <!-- 字体颜色按钮（默认黑色） -->
+    <button id="colorBtn" onclick="openColorPicker()">
+      <span class="color-dot" id="colorDot" style="background:#000000;"></span>
+      字体颜色（黑色）
+    </button>
+    <input type="color" id="colorPicker" style="display:none;" onchange="setTextColor()">
+  </div>
+
+  <div class="upload-progress" id="uploadProgress"><div class="progress-bar" id="progressBar"></div></div>
+
+  <textarea id="editor" placeholder="在这里写纯Markdown正文内容"></textarea>
+
+  <div class="btn-group">
+    <button class="btn btn-green" onclick="saveFile()"><i class="fa fa-save"></i> 保存到 /md/</button>
+    <button class="btn btn-red" onclick="deleteFile()"><i class="fa fa-trash"></i> 删除</button>
+    <button class="btn btn-blue" onclick="newFile()"><i class="fa fa-plus"></i> 新建</button>
+  </div>
+</div>
+
+<div id="dragBar">||</div>
+
+<div class="right">
+  <div id="preview" class="markdown-body"></div>
+</div>
+
+<div class="graph-modal" id="graphModal">
+  <button class="graph-close" onclick="closeGraph()">关闭</button>
+  <canvas class="graph-canvas" id="graphCanvas"></canvas>
+</div>
+
+
+
+
+
+<script src="libs/marked.min.js"></script>
+<script src="libs/three.min.js"></script>
+<script src="libs/OrbitControls.js"></script>
+<script src="manager.js"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站配置管理</title>
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .menu-item {
+            border: 1px solid #eee;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .menu-children {
+            margin-left: 20px;
+            border-left: 2px solid #eee;
+            padding-left: 15px;
+        }
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>网站配置管理</h1>
+
+        <form id="configForm">
+            <div class="form-group">
+                <label for="siteTitle">浏览器标签标题:</label>
+                <input type="text" id="siteTitle" value="交易觉知">
+            </div>
+
+            <div class="form-group">
+                <label for="heroTitle">首页横幅大标题:</label>
+                <input type="text" id="heroTitle" value="交易觉知">
+            </div>
+
+            <div class="form-group">
+                <label for="heroSubtitle">首页横幅副标题:</label>
+                <input type="text" id="heroSubtitle" value="专注交易认知提升、思维觉醒、策略沉淀 · 让每一次思考都成为盈利的基石">
+            </div>
+
+            <div class="form-group">
+                <label for="siteDescription">网站描述:</label>
+                <input type="text" id="siteDescription" value="探讨期货交易技巧和工具软件的使用">
+            </div>
+
+            <div class="form-group">
+                <label for="logoUrl">Logo URL:</label>
+                <input type="text" id="logoUrl" value="/img/logo.svg">
+            </div>
+
+            <div class="form-group">
+                <label for="logoAlt">Logo 描述:</label>
+                <input type="text" id="logoAlt" value="交易觉知">
+            </div>
+
+            <div class="form-group">
+                <label for="heroVideo">首页视频URL:</label>
+                <input type="text" id="heroVideo" value="https://static.699pic.com/video/video-banner-v3.4.mp4">
+            </div>
+
+            <h2>导航菜单设置</h2>
+            <div id="menuContainer">
+                <!-- 菜单项目将通过JavaScript动态添加 -->
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" onclick="addMenuItem()">添加菜单项</button>
+                <button type="button" onclick="saveConfig()">保存配置</button>
+                <button type="button" onclick="loadConfig()">加载当前配置</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let menuItemCount = 0;
+
+        // 页面加载自动读取服务端配置
+        document.addEventListener('DOMContentLoaded', function () {
+            loadConfig();
+        });
+
+        // 新增一级菜单，支持回填名称、链接、子菜单
+        function addMenuItem(name = "", url = "", children = []) {
+            menuItemCount++;
+            const container = document.getElementById('menuContainer');
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'menu-item';
+            itemDiv.innerHTML = `
+                <div class="form-group">
+                    <label>菜单项 ${menuItemCount} 名称:</label>
+                    <input class="menu-name" type="text" value="${name}" placeholder="菜单项名称">
+                </div>
+                <div class="form-group">
+                    <label>菜单项 ${menuItemCount} URL:</label>
+                    <input class="menu-url" type="text" value="${url}" placeholder="菜单URL">
+                </div>
+                <div class="form-group">
+                    <label>子菜单项 (可选):</label>
+                    <button type="button" onclick="addChildMenuItem(this)">添加子菜单</button>
+                    <div class="menu-children"></div>
+                </div>
+            `;
+            container.appendChild(itemDiv);
+
+            // 渲染已有子菜单
+            const childWrap = itemDiv.querySelector('.menu-children');
+            children.forEach(child => {
+                createChildInput(childWrap, child.name, child.url);
+            });
+        }
+
+        // 创建单个子菜单输入框
+        function createChildInput(parentWrap, childName = "", childUrl = "") {
+            const childBlock = document.createElement('div');
+            childBlock.className = 'form-group';
+            childBlock.style.display = 'flex';
+            childBlock.style.gap = '8px';
+            childBlock.innerHTML = `
+                <input class="child-name" type="text" value="${childName}" placeholder="子菜单名称">
+                <input class="child-url" type="text" value="${childUrl}" placeholder="子菜单URL">
+            `;
+            parentWrap.appendChild(childBlock);
+        }
+
+        // 点击按钮新增空白子菜单
+        function addChildMenuItem(btn) {
+            const childWrap = btn.nextElementSibling;
+            createChildInput(childWrap);
+        }
+
+        // 遍历页面所有菜单，组装菜单数组
+        function collectMenuData() {
+            const menuResult = [];
+            const allTopMenu = document.querySelectorAll('.menu-item');
+            allTopMenu.forEach(topDom => {
+                const name = topDom.querySelector('.menu-name').value.trim();
+                const url = topDom.querySelector('.menu-url').value.trim();
+                const childWrap = topDom.querySelector('.menu-children');
+                const childDomList = childWrap.querySelectorAll('.form-group');
+                const childList = [];
+                childDomList.forEach(childDom => {
+                    const cName = childDom.querySelector('.child-name').value.trim();
+                    const cUrl = childDom.querySelector('.child-url').value.trim();
+                    if (cName && cUrl) {
+                        childList.push({ name: cName, url: cUrl });
+                    }
+                });
+                if (name && url) {
+                    menuResult.push({
+                        name,
+                        url,
+                        children: childList
+                    });
+                }
+            });
+            return menuResult;
+        }
+
+        // 保存配置，写入hero_title、hero_subtitle、hero_video_url
+        function saveConfig() {
+            const menuData = collectMenuData();
+            const config = {
+                site_title: document.getElementById('siteTitle').value,
+                hero_title: document.getElementById('heroTitle').value,
+                hero_subtitle: document.getElementById('heroSubtitle').value,
+                hero_video_url: document.getElementById('heroVideo').value,
+                site_name: "MDwe-v1",
+                site_description: document.getElementById('siteDescription').value,
+                logo_url: document.getElementById('logoUrl').value,
+                navigation: {
+                    menu: menuData
+                }
+            };
+
+            fetch('/api/save-config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ config: config })
+            })
+                .then(resp => resp.json())
+                .then(res => {
+                    if (res.success) {
+                        alert('配置保存成功！');
+                    } else {
+                        alert('保存失败：' + (res.error || '未知错误'));
+                    }
+                })
+                .catch(err => {
+                    console.error('保存错误', err);
+                    alert('网络异常，保存失败');
+                });
+        }
+
+        // 加载服务端配置，回填hero标题、副标题、视频地址
+        function loadConfig() {
+            fetch('/system/config.json')
+                .then(resp => resp.json())
+                .then(cfg => {
+                    // 基础网站信息回填
+                    document.getElementById('siteTitle').value = cfg.site_title || '';
+                    document.getElementById('heroTitle').value = cfg.hero_title || '';
+                    document.getElementById('heroSubtitle').value = cfg.hero_subtitle || '';
+                    document.getElementById('siteDescription').value = cfg.site_description || '';
+                    document.getElementById('logoUrl').value = cfg.logo_url || '';
+                    document.getElementById('heroVideo').value = cfg.hero_video_url || '';
+
+                    // 清空旧菜单，渲染后端菜单
+                    const menuWrap = document.getElementById('menuContainer');
+                    menuWrap.innerHTML = '';
+                    const menuList = cfg.navigation?.menu || [];
+                    menuList.forEach(item => {
+                        addMenuItem(item.name, item.url, item.children || []);
+                    });
+                })
+                .catch(err => {
+                    console.error('读取配置失败', err);
+                    alert('读取系统配置失败，请检查服务是否正常运行');
+                });
+        }
+    </script>
+</body>
+</html>

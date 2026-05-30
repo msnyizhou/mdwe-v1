@@ -1,0 +1,52 @@
+{
+  "site_title": "MDwe",
+  "hero_video_url": "https://static.699pic.com/video/video-banner-v3.4.mp4",
+  "hero_title": "Mdwe交易觉知",
+  "hero_subtitle": "专注交易认知提升、思维觉醒、策略沉淀 · 让每一次思考都成为盈利的基石",
+  "site_name": "MDwe-v1",
+  "site_description": "一套简单站点模板",
+  "logo_url": "/img/logo.svg",
+  "admin_password": "123456",
+  "max_upload_size": 5,
+  "dark_mode": false,
+  "navigation": {
+    "menu": [
+      {
+        "name": "首页",
+        "url": "index.html",
+        "children": []
+      },
+      {
+        "name": "软件工具",
+        "url": "setweb.html",
+        "children": []
+      },
+      {
+        "name": "交易心得",
+        "url": "index.html?cat=交易日志",
+        "children": []
+      },
+      {
+        "name": "文档管理",
+        "url": "manager.html",
+        "children": []
+      }
+    ]
+  },
+  "site": {
+    "title": "交易觉知",
+    "description": "探讨期货交易技巧和工具软件的使用",
+    "logo": {
+      "url": "/img/logo.svg",
+      "alt": "交易觉知"
+    }
+  },
+  "theme": {
+    "default": "light",
+    "toggle": true
+  },
+  "features": {
+    "heroVideo": "https://static.699pic.com/video/video-banner-v3.4.mp4",
+    "enableGraph": true
+  }
+}

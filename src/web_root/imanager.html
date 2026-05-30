@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>交易觉知 - 文档管理器</title>
+<link rel="stylesheet" href="imanager.css">
+</head>
+<body>
+
+<div class="header">交易觉知 · MD 管理器</div>
+
+<div class="content">
+  <!-- 文件列表 -->
+  <div class="page active" id="filePage">
+    <div id="fileList"></div>
+    <button class="refresh-btn" onclick="loadFileList(true)">刷新文件列表</button>
+  </div>
+
+  <!-- 编辑区（含预览切换） -->
+  <div class="page" id="editPage">
+    <!-- 预览切换栏 -->
+    <div class="preview-toggle-bar">
+      <span>编辑文档</span>
+      <button class="toggle-btn" id="togglePreviewBtn">切换预览</button>
+    </div>
+
+    <!-- 编辑区（默认显示） -->
+    <div class="edit-area active">
+      <input id="filename" placeholder="文件名（例如：strategy.md）">
+      <input id="title" placeholder="文章标题">
+      <input id="categoryInput" placeholder="输入或选择分类" list="categoryList">
+      <datalist id="categoryList"></datalist>
+      <input id="date" placeholder="日期 2026-03-19">
+      <input id="desc" placeholder="简短描述">
+      <div class="cover-row">
+        <input id="cover" placeholder="封面URL（可选）">
+        <button id="fetchCoverBtn" onclick="fetchCoverImage()">获取封面</button>
+      </div>
+      <input type="color" id="colorPicker" style="display:none;" onchange="setTextColor()">
+
+      <div class="toolbar">
+        <button onclick="insert('# ')"><i class="fa fa-header"></i> H1</button>
+        <button onclick="insert('## ')"><i class="fa fa-header"></i> H2</button>
+        <button onclick="insert('\n')"><i class="fa fa-paragraph"></i> 段落</button>
+        <button onclick="insert('- ')"><i class="fa fa-list"></i> 列表</button>
+        <button onclick="insert('1. ')"><i class="fa fa-list-ol"></i> 序号</button>
+        <button onclick="wrapSelection('**', '**')"><i class="fa fa-bold"></i> 粗体</button>
+        <button onclick="wrapSelection('*', '*')"><i class="fa fa-italic"></i> 斜体</button>
+        <button onclick="insert('> ')"><i class="fa fa-quote-right"></i> 引用</button>
+        <button onclick="insert('\n---\n')"><i class="fa fa-minus"></i> 横线</button>
+        <button onclick="insertTable()"><i class="fa fa-table"></i> 表格</button>
+        <button onclick="insertImg()"><i class="fa fa-image"></i> 图片</button>
+        <button onclick="insertLink()"><i class="fa fa-link"></i> 链接</button>
+        <button onclick="pasteUploadImage()"><i class="fa fa-clipboard"></i> 粘贴</button>
+        <button onclick="insertVideo()"><i class="fa fa-video-camera"></i> 视频</button>
+        <button onclick="insertAudio()"><i class="fa fa-music"></i> 音频</button>
+        <button onclick="insertCode()"><i class="fa fa-code"></i> Code</button>
+        <button id="colorBtn" onclick="openColorPicker()"><span class="color-dot" id="colorDot" style="background:#000000;"></span> 颜色</button>
+      </div>
+
+      <div class="upload-progress" id="uploadProgress"><div class="progress-bar" id="progressBar"></div></div>
+
+      <textarea id="editor" placeholder="在这里写Markdown"></textarea>
+
+      <div class="btn-group">
+        <button class="btn btn-green" onclick="saveFile()"><i class="fa fa-save"></i> 保存</button>
+        <button class="btn btn-red" onclick="deleteFile()"><i class="fa fa-trash"></i> 删除</button>
+        <button class="btn btn-blue" onclick="newFile()"><i class="fa fa-plus"></i> 新建</button>
+      </div>
+    </div>
+
+    <!-- 预览区（默认隐藏） -->
+    <div class="preview-area">
+      <div id="preview" class="markdown-body"></div>
+    </div>
+  </div>
+
+  <!-- 独立预览页（保留底部tab） -->
+  <div class="page" id="previewPage">
+    <div id="previewFull" class="markdown-body"></div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <button class="nav-btn active" data-page="filePage">文件</button>
+  <button class="nav-btn" data-page="editPage">编辑</button>
+  <button class="nav-btn" data-page="previewPage">预览</button>
+  <button class="nav-btn" onclick="newTradeLog()"><i class="fa fa-calendar-check-o"></i> 日志</button>
+  <button class="nav-btn" onclick="openGraph()"><i class="fa fa-project-diagram"></i> 图谱</button>
+</div>
+
+<div class="graph-modal" id="graphModal">
+  <button class="graph-close" onclick="closeGraph()">关闭</button>
+  <canvas class="graph-canvas" id="graphCanvas"></canvas>
+</div>
+
+
+
+
+
+<script src="libs/marked.min.js"></script>
+<script src="libs/three.min.js"></script>
+<script src="libs/OrbitControls.js"></script>
+<script src="imanager.js"></script>
+</body>
+</html>
