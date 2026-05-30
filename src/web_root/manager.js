@@ -111,7 +111,7 @@ function insertAudio() {
   const code = `
 <audio controls style="width:100%;border-radius:8px;">
   <source src="${u}" type="audio/mpeg">
-</audio>
+
 `;
   insert(code);
 }
@@ -175,7 +175,6 @@ async function openFile(file) {
   filename.value = file;
 
   const meta = {title:"",category:"",date:"",desc:"",cover:""};
-  // 兼容 CRLF (\r\n) 和 LF (\n) 换行符
   const normalized = txt.replace(/\r\n/g, '\n');
   const m = normalized.match(/^---\n([\s\S]*?)\n===/);
   let body = normalized;
@@ -212,7 +211,6 @@ function newFile() {
   updatePreview();
 }
 
-// 智能新建/打开 当日交易日志
 async function newTradeLog() {
   const now = new Date();
   const y = now.getFullYear();
@@ -484,7 +482,6 @@ function onGraphMouseMove(e){
   graphMouse.x=((e.clientX-r.left)/r.width)*2-1;
   graphMouse.y=-((e.clientY-r.top)/r.height)*2+1;
   graphRaycaster.setFromCamera(graphMouse,camera);
-  // 图谱未初始化时 graphNodes 为空，跳过
   if (!graphNodes || graphNodes.length === 0) return;
   const isc=graphRaycaster.intersectObjects(graphNodes.map(x=>x.mesh));
   if(isc.length>0){const h=graphNodes.find(x=>x.mesh===isc[0].object);if(h!==graphHoverNode){graphHoverNode=h;highlightGraphNode(h);}}else if(graphHoverNode){graphHoverNode=null;resetGraphVisuals();}
@@ -509,3 +506,16 @@ function closeGraph(){document.getElementById("graphModal").style.display="none"
 document.getElementById("graphCanvas").addEventListener("mousedown",onGraphMouseDown)
 document.addEventListener("mousemove",onGraphMouseMove)
 document.addEventListener("mouseup",onGraphMouseUp)
+
+// 新增功能函数
+function insertEmoji(){
+  const emojis = ['😊','👍','🎉','❤️','🔥','💡','✅','❌'];
+  let emo = prompt("选择表情", emojis.join(" "));
+  if(emo) insert(emo);
+}
+function editorUndo(){
+  document.execCommand('undo');
+}
+function editorRedo(){
+  document.execCommand('redo');
+}

@@ -6,6 +6,7 @@
 <title>交易觉知 - 文档管理器</title>
 <link rel="stylesheet" href="libs/github-markdown-light.css">
 <link rel="stylesheet" href="manager.css">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -33,28 +34,67 @@
   </div>
 
   <div class="toolbar">
-    <button onclick="insert('# ')"><i class="fa fa-header"></i> H1</button>
-    <button onclick="insert('## ')"><i class="fa fa-header"></i> H2</button>
-    <button onclick="insert('\n')"><i class="fa fa-paragraph"></i> 段落</button>
-    <button onclick="insert('- ')"><i class="fa fa-list-ul"></i> 列表</button>
-    <button onclick="insert('1. ')"><i class="fa fa-list-ol"></i> 序号</button>
-    <button onclick="wrapSelection('**', '**')"><i class="fa fa-bold"></i> 粗体</button>
-    <button onclick="wrapSelection('*', '*')"><i class="fa fa-italic"></i> 斜体</button>
-    <button onclick="insert('> ')"><i class="fa fa-quote-right"></i> 引用</button>
-    <button onclick="insert('\n---\n')"><i class="fa fa-minus"></i> 横线</button>
-    <button onclick="insertTable()"><i class="fa fa-table"></i> 表格</button>
-    <button onclick="insertImg()"><i class="fa fa-picture-o"></i> 图片</button>
-    <button onclick="insertLink()"><i class="fa fa-link"></i> 链接</button>
-    <button onclick="pasteUploadImage()"><i class="fa fa-clipboard"></i> 粘贴上传</button>
-    <button onclick="insertVideo()"><i class="fa fa-video-camera"></i> 视频</button>
-    <button onclick="insertAudio()"><i class="fa fa-music"></i> 音频</button>
-    <button onclick="insertCode()"><i class="fa fa-code"></i> 代码</button>
-    <!-- 字体颜色按钮（默认黑色） -->
+    <button onclick="insertEmoji()"><i class="fa fa-smile-o"></i></button>
+
+    <div class="dropdown">
+      <button class="dropbtn"><i class="fa fa-header"></i> H</button>
+      <div class="dropdown-content">
+        <button onclick="insert('# ')">一级标题 H1</button>
+        <button onclick="insert('## ')">二级标题 H2</button>
+        <button onclick="insert('### ')">三级标题 H3</button>
+        <button onclick="insert('#### ')">四级标题 H4</button>
+        <button onclick="insert('##### ')">五级标题 H5</button>
+        <button onclick="insert('###### ')">六级标题 H6</button>
+      </div>
+    </div>
+
+    <button onclick="wrapSelection('**', '**')"><i class="fa fa-bold"></i></button>
+    <button onclick="wrapSelection('*', '*')"><i class="fa fa-italic"></i></button>
+    <button onclick="wrapSelection('~~', '~~')"><i class="fa fa-strikethrough"></i></button>
+
+    <button onclick="insertLink()"><i class="fa fa-link"></i></button>
+
+    <span class="toolbar-divider"></span>
+
+    <button onclick="insert('- ')"><i class="fa fa-list-ul"></i></button>
+    <button onclick="insert('1. ')"><i class="fa fa-list-ol"></i></button>
+    <button onclick="insert('- [ ] ')"><i class="fa fa-check-square-o"></i></button>
+
+    <span class="toolbar-divider"></span>
+
+    <button onclick="insert('> ')"><i class="fa fa-quote-right"></i></button>
+    <button onclick="insert('\n---\n')"><i class="fa fa-minus"></i></button>
+
+    <button onclick="wrapSelection('`', '`')"><i class="fa fa-code"></i></button>
+    <button onclick="insertCode()"><i class="fa fa-file-code-o"></i></button>
+
+    <button onclick="insertTable()"><i class="fa fa-table"></i></button>
+
+    <span class="toolbar-divider"></span>
+
+    <button onclick="insertImg()"><i class="fa fa-picture-o"></i></button>
+    <button onclick="pasteUploadImage()"><i class="fa fa-clipboard"></i></button>
+    <button onclick="insertVideo()"><i class="fa fa-video-camera"></i></button>
+    <button onclick="insertAudio()"><i class="fa fa-music"></i></button>
+
+    <span class="toolbar-divider"></span>
+
+    <button onclick="editorUndo()"><i class="fa fa-undo"></i></button>
+    <button onclick="editorRedo()"><i class="fa fa-repeat"></i></button>
+
     <button id="colorBtn" onclick="openColorPicker()">
       <span class="color-dot" id="colorDot" style="background:#000000;"></span>
-      字体颜色（黑色）
     </button>
     <input type="color" id="colorPicker" style="display:none;" onchange="setTextColor()">
+
+    <div class="dropdown">
+      <button class="dropbtn"><i class="fa fa-ellipsis-h"></i></button>
+      <div class="dropdown-content">
+        <button onclick="wrapSelection('==', '==')">高亮文本</button>
+        <button onclick="wrapSelection('<u>', '</u>')">下划线</button>
+        <button onclick="insert('$$\n$$')">公式块</button>
+      </div>
+    </div>
   </div>
 
   <div class="upload-progress" id="uploadProgress"><div class="progress-bar" id="progressBar"></div></div>
